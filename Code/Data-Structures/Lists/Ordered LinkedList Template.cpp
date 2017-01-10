@@ -78,7 +78,8 @@ template<class H> class LList
       Node<H> *nd = tmp->getNext();
 			tmp->setNext(nd->getNext());
 			delete(nd);
-			return this;
+	                 n--;
+       return this;
     }
 
     bool search(H x)
