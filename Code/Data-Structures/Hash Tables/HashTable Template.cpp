@@ -1,59 +1,69 @@
+/*
+Hash Tables							©ZMDevJockey
+*/
+
 #include <iostream>
-#include <ctime>
-#include <math.h>
 #include "List.cpp"
+
 using namespace std;
 
-template <class T> class HashTable {
-	public:
-		virtual HashTable<T>* insert(T x) = 0;
-		virtual int search(T x) = 0;
-		virtual HashTable<T>* del(T x) = 0;
-};
 
-template <class H> class LinkedHashTable : public HashTable<H> {
-	private:
+/*********************************** HASH TABLES ***********************************/
+
+/*********************************** Linked Hash ***********************************/
+
+/**************************
+Class LinkedHashTable
+**************************/
+template<class H> class LinkedHashTable
+{
 		virtual int hash(H x) = 0;
-		int m;
-		int size;
+
+		int m, size;
 		LinkedList<H> **t;
-		
+
 	public:
-		LinkedHashTable<H>(int m) {
+		LinkedHashTable(int m)
+		{
 			t = new LinkedList<H>*[m];
-			for(int i=0; i<m; i++) t[i] = new LinkedList<H>();
-			this->size = 0;
+			for(int i = 0; i < m; i++)	t[i] = new LinkedList<H>();
+			size = 0;
 			this->m = m;
 		}
-		
-		int getm() {return m;}
-		void setm(int m) {this->m = m;}
-		int getSize() {return size;}
-		//void setSize(int size) {this->size = size;}
-		
-		LinkedHashTable<H>* insert(H x) {
+
+		int getM() { return m; }
+		void setM(int m) { this->m = m; }
+		int getSize() { return size; }
+
+		LinkedHashTable<H>* ins(H x)
+		{
 			int p = hash(x);
 			t[p]->insert(x);
 			size++;
-			return this;
+			return this;	
 		}
-		
-		int search(H x) {
+
+		bool search(H x)
+		{
 			int p = hash(x);
 			return t[p]->search(x);
 		}
-		
-		LinkedHashTable<H>* del(H x) {
+
+		LinkedHashTable<H>* del(H x)
+		{
 			int p = hash(x);
-			if(t[p]->search(x)) {
+			if(t[p]->search(x))
+			{
 				t[p]->del(x);
 				size--;
 			}
 			return this;
 		}
-		
-		void print() {
-			for(int i=0; i<m; i++) {
+
+		void print()
+		{
+			for(int i = 0; i < m; i++)
+			{
 				cout << "[" << i << "] -> ";
 				t[i]->print();
 				cout << endl;
@@ -63,81 +73,107 @@ template <class H> class LinkedHashTable : public HashTable<H> {
 };
 
 
-template <class H> class DivLinkedHashTable : public LinkedHashTable<H> {
-	private:
-		int hash(H x) {
-			int h = ((int)x % this->getm());
+/**************************
+Class DivLinkedHashTable
+**************************/
+template<class H> class DivLinkedHashTable : public LinkedHashTable<H>
+{
+		int hash(H x)
+		{
+			int h = ((int)x % this->getM());
 			return h;
 		}
+
 	public:
 		DivLinkedHashTable(int m) : LinkedHashTable<H>(m) {}
+
 };
 
-template <class H> class MulLinkedHashTable : public LinkedHashTable<H> {
-	private:
+
+/**************************
+Class MulLinkedHashTable
+**************************/
+template<class H> class MulLinkedHashTable : public LinkedHashTable<H>
+{
 		double c;
-		int hash(H x) {
-			double y = (int)x * c;
-			double a = y - (int)y; 
-			int h = a * this->getm();
+
+		int hash(H x, int i)
+		{
+			double y = int(x) * c;
+			double a = y - int(y);
+			int h = a * this->getM();
 			return h;
 		}
+
 	public:
-		MulLinkedHashTable(int m) : LinkedHashTable<H>(m) {
-			c = 0.7;
-		}
+		MulLinkedHashTable(int m) : LinkedHashTable<H>(m) { c = 0.7; }
 };
 
 
-template <class H> class OpenHashTable : public HashTable<H> {
-	private:
+/*********************************** Open Hash ***********************************/
+
+/**************************
+Class OpenHashTable
+**************************/
+template<class H> class OpenHashTable
+{
 		virtual int hash(H x, int i) = 0;
-		int m;
-		int size;
+
+		int m, size;
+
 		H **t;
 		H *deleted;
-		
+
 	public:
-		OpenHashTable<H>(int m) {
+		OpenHashTable(int m)
+		{
 			t = new H*[m];
-			for(int i=0; i<m; i++) t[i] = NULL;
-			this->size = 0;
+			for(int i = 0; i < m; i++)	t[i] = NULL;
+			size = 0;
 			this->m = m;
 			deleted = new H();
 		}
-		
-		int getm() {return m;}
-		void setm(int m) {this->m = m;}
-		int getSize() {return size;}
-		
-		OpenHashTable<H>* insert(H x) {
-			if(size==m) return this;
-			int i=0;
+
+		int getM() { return m; }
+		void setM(int m) { this->m = m;}
+		int getSize() { return size; }
+
+		OpenHashTable<H>* ins(H x)
+		{
+			if(size == m) return this;
+
+			int i = 0;
 			int p = hash(x,i);
-			while(i<m && t[p]!=NULL && t[p]!=deleted) {
+			while(i < m && t[p] && t[p] != deleted)
+			{
 				i++;
 				p = hash(x,i);
 			}
-			if(t[p]==NULL || t[p]==deleted) t[p] = new H(x);
+			if(!t[p] || t[p] == deleted) t[p] = new H(x);
 			return this;
 		}
-		
-		int search(H x) {
-			int i=0;
+
+		bool search(H x)
+		{
+			int i = 0;
 			int p = hash(x,i);
-			while(i<m && t[p]!=NULL) {
-				if( t[p]!=deleted && *t[p]==x ) return 1;
+			while(i < m && t[p])
+			{
+				if(t[p] != deleted && *t[p] == x)	return true;
 				i++;
 				p = hash(x,i);
 			}
-			return 0;
+			return false;
 		}
-		
-		OpenHashTable<H>* del(H x) {
-			int i=0;
+
+		OpenHashTable<H>* del(H x)
+		{
+			int i = 0;
 			int p = hash(x,i);
-			while(i<m && t[p]!=NULL) {
-				if( *t[p]==x ) {
+			while(i < m && t[p])
+			{
+				if(*t[p] == x)
+				{
 					t[p] = deleted;
 					return this;
 				}
@@ -146,33 +182,53 @@ template <class H> class OpenHashTable : public HashTable<H> {
 			}
 			return this;
 		}
-		
-		void print() {
-			for(int i=0; i<m; i++) {
-				if(t[i] && t[i]!=deleted) cout << "[" << i << "] -> " << *t[i];
+
+		void print()
+		{
+			for(int i = 0; i < m; i++)
+			{
+				if(t[i] && t[i] != deleted)	cout << "[" << i << "] ->" << *t[i];
 				else cout << "[" << i << "] -> //";
 				cout << endl;
 			}
 			cout << endl;
 		}
+
 };
 
-template <class H> class LinearOpenHashTable : public OpenHashTable<H> {
-	private:
-		int hash(H x, int i) {
-			return (((int)x % this->getm()) + i) % this->getm();
+
+/**************************
+Class LinearOpenHashTable
+**************************/
+template<class H> class LinearOpenHashTable : public OpenHashTable<H>
+{
+		int hash(H x, int i)
+		{
+			return (((int)x % this->getM()) + i ) % this->getM();
 		}
+
 	public:
-		LinearOpenHashTable(int m) : OpenHashTable<H>(m) {
-		}
+		LinearOpenHashTable(int m) : OpenHashTable<H>(m) {}
+
 };
 
 
-int main() {
-	LinearOpenHashTable<int> *T1 = new LinearOpenHashTable<int>(11);
-	T1->insert(4)->insert(34)->insert(31)->insert(56)->insert(51)->insert(44)->insert(33)->insert(77)->insert(50);
-	T1->del(34)->del(77);
-	T1->insert(77)->insert(22);
-	T1->print();
-	return 1;
+/*********************************** Main ***********************************/
+int main()
+{
+	DivLinkedHashTable<int> *d = new DivLinkedHashTable<int>(5);
+	d->ins(3)->ins(5)->ins(10)->ins(24)->ins(33)->ins(77);
+	d->del(4)->del(5);
+	d->ins(5);
+	d->print();
+
+	LinearOpenHashTable<int> *m = new LinearOpenHashTable<int>(11);
+	m->ins(4)->ins(34)->ins(31)->ins(56)->ins(51)->ins(44)->ins(33)->ins(77)->ins(50);
+	m->del(34)->del(77);
+	m->ins(77)->ins(22);
+	m->print();
+	
+
+	cin.get();
+	return 0;
 }
