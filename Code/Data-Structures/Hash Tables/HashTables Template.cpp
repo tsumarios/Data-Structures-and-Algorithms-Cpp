@@ -97,7 +97,7 @@ template<class H> class MulLinkedHashTable : public LinkedHashTable<H>
 {
 		double c;
 
-		int hash(H x, int i)
+		int hash(H x)
 		{
 			double y = int(x) * c;
 			double a = y - int(y);
