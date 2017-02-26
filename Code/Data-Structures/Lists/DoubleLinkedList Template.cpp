@@ -112,7 +112,7 @@ template<class H> class DBList
  
     bool search(H x)
     {
-      return _search(x)!=NULL;
+      return _search(x);
     }
  
     void print()
@@ -135,7 +135,7 @@ template<class H> class DBList
  
 };
  
-//Overloading operator << for DBList class
+/******************* Overloading operator << DBList *******************/
 template<class H> ostream &operator<<(ostream &os, DBList<H> &obj)
 {
   for(H* it = obj.begin(); it; it = obj.next())
