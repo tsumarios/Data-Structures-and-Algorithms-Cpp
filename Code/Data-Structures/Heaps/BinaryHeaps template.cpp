@@ -43,7 +43,7 @@ template<class H> class BinaryHeap
 		}
 
 	public:
-		virtual int compare(H *a, H *b) = 0;
+		virtual H compare(H *a, H *b) = 0;			//Assumendo che vi sia l'overloading dell'operatore - per il tipo H
 
 		BinaryHeap(int size)
 		{
@@ -116,7 +116,7 @@ Class MaxBinaryHeap
 template<class H> class MaxBinaryHeap : public BinaryHeap<H>
 {
 	public:
-		int compare(H *a, H *b) { return (*a)-(*b); }
+		H compare(H *a, H *b) { return (*a)-(*b); }
 
 		MaxBinaryHeap(int size) : BinaryHeap<H>(size) {}
 		MaxBinaryHeap(H **V, int size) : BinaryHeap<H>(V,size) {}
@@ -130,7 +130,7 @@ Class MinBinaryHeap
 template<class H> class MinBinaryHeap : public BinaryHeap<H>
 {
 	public:
-		int compare(H *a, H *b)	{ return (*b)-(*a); }
+		H compare(H *a, H *b)	{ return (*b)-(*a); }
 
 		MinBinaryHeap(int size) : BinaryHeap<H>(size) {}
 		MinBinaryHeap(H **V, int size) : BinaryHeap<H>(V,size) {}
