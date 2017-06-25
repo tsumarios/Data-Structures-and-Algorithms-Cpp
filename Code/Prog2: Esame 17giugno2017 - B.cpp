@@ -1,5 +1,4 @@
 /*
- * Programmazione 2
  * Esame 23 giugno 2017 - Compito B
  * Coded by ©ZMDevJockey
  */
@@ -25,20 +24,20 @@ public:
 	void setRisp(int r)	{ this->r = r; }
 	void setEta(int e)	{ this->e = e; }
 
-	int getVoto() { return v; }
-	int getRisp() { return r; }
-	int getEta() { return e; }
-	string getMatr() { return matr; }
+	int getVoto()	{ return v; }
+	int getRisp()	{ return r; }
+	int getEta()	{ return e; }
+	string getMatr()	{ return matr; }
 };
 
 /* Overloadings */
-bool operator>(Studente &a, Studente &b){ return (a.getVoto()<b.getVoto()) || (a.getVoto()==b.getVoto() && a.getRisp()<b.getRisp()) || (a.getVoto()==b.getVoto() && a.getRisp()==b.getRisp() && a.getEta()>b.getEta()); }
-bool operator<(Studente &a, Studente &b) { return a>b ? 0:1; }
-bool operator==(Studente &a, Studente &b){ return a.getVoto()==b.getVoto() && a.getRisp()==b.getRisp() && a.getEta()==b.getEta(); }
-bool operator!=(Studente &a, Studente &b) { return a==b ? 0:1; }
-bool operator>=(Studente &a, Studente &b) { return a>b || a==b; }
-bool operator<=(Studente &a, Studente &b) { return a<b || a==b; }
-ostream &operator<<(ostream &os, Studente s) { return os << s.getMatr(); }
+bool operator>(Studente &a, Studente &b)	{ return (a.getVoto()<b.getVoto()) || (a.getVoto()==b.getVoto() && a.getRisp()<b.getRisp()) || (a.getVoto()==b.getVoto() && a.getRisp()==b.getRisp() && a.getEta()>b.getEta()); }
+bool operator<(Studente &a, Studente &b)	{ return a>b ? 0:1; }
+bool operator==(Studente &a, Studente &b)	{ return a.getVoto()==b.getVoto() && a.getRisp()==b.getRisp() && a.getEta()==b.getEta(); }
+bool operator!=(Studente &a, Studente &b)	{ return a==b ? 0:1; }
+bool operator>=(Studente &a, Studente &b)	{ return a>b || a==b; }
+bool operator<=(Studente &a, Studente &b)	{ return a<b || a==b; }
+ostream &operator<<(ostream &os, Studente s)	{ return os << s.getMatr(); }
 
 
 /* Esercizio 2 */
@@ -64,9 +63,9 @@ public:
 	void setPar(Node<H> *parent)	{ this->parent = parent; }
 	void setKey(H *key)	{ this->key = new H(*key); }
 
-	Node<H>* getLeft() { return left; }
-	Node<H>* getRight() { return right; }
-	Node<H>* getParent() { return parent; }
+	Node<H>* getLeft()	{ return left; }
+	Node<H>* getRight()	{ return right; }
+	Node<H>* getParent()	{ return parent; }
 	H* getKey()	{ return new H(*key); }
 };
 
@@ -123,11 +122,7 @@ public:
 
 	bool search(H x)	{ return _searchNode(x); }
 
-	void print(){
-		_print(root);
-		cout << endl;
-	}
-
+	void print()	{ _print(root);	cout << endl; }
 };
 
 
@@ -213,7 +208,7 @@ public:
 		return true;	
 	}
 
-	void print() { for(H *it = begin(); it; it = next())	cout << *it << " "; }
+	void print()	{ for(H *it = begin(); it; it = next())	cout << *it << " "; }
 };
 
 /*******************
@@ -224,14 +219,14 @@ class Valutazione{
 	BSTS<Studente> *t;
 
 public:
-	Valutazione(): n(0), t(new BSTS<Studente>()) { t->begin(); }
+	Valutazione(): n(0), t(new BSTS<Studente>())	{ t->begin(); }
 
-	Valutazione* ins(Studente s) { t->ins(s); return this; }
+	Valutazione* ins(Studente s)	{ t->ins(s); return this; }
 
 	//Ritorna il p-esimo studente nella posizione della valutazione
-	Studente search(int p) { return t->searchS(p); }
+	Studente search(int p)	{ return t->searchS(p); }
 
-	void print() { t->print(); }
+	void print()	{ t->print(); }
 };
 
 
