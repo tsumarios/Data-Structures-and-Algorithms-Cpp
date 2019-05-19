@@ -148,7 +148,7 @@ template <class H> class BinaryHeap : public PriorityQueue<H>{
 template <class H> class MaxBinaryHeap : public BinaryHeap<H> {
 	private: 
 	public:
-		int compare(H* a, H *b) {
+		H compare(H* a, H *b) {
 			return (*a)-(*b);
 		}
 		MaxBinaryHeap(int size) : BinaryHeap<H>(size) {}
@@ -160,7 +160,7 @@ template <class H> class MaxBinaryHeap : public BinaryHeap<H> {
 template <class H> class MinBinaryHeap : public BinaryHeap<H> {
 	private: 
 	public:
-		int compare(H* a, H *b) {
+		H compare(H* a, H *b) {
 			return (*b)-(*a);
 		}
 		MinBinaryHeap(int size) : BinaryHeap<H>(size) {}
