@@ -55,7 +55,7 @@ template<class H> class BinaryHeap
 		BinaryHeap(H **V, int size)
 		{
 			A = V;
-			len = size+1;
+			len = size;
 			heapsize = size;
 		}
 
@@ -77,7 +77,7 @@ template<class H> class BinaryHeap
 
 		BinaryHeap<H>* enqueue(H x)
 		{
-			if(heapsize == len-1) return this;
+			if(heapsize == len) return this;
 
 			heapsize++;
 			A[heapsize] = new H(x);
