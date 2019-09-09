@@ -3,6 +3,8 @@ Binary Heaps							©ZMDevJockey
 */
 
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
@@ -153,6 +155,7 @@ int main()
 
 	int n = 10;
 	int **V = new int*[n+1];
+	srand(time(NULL));
 	for(int i = 1; i <= n; i++) V[i] = new int(rand() % 10);
 	MinBinaryHeap<int> *minH = new MinBinaryHeap<int>(V,n);
 	minH->print();
